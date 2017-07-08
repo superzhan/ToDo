@@ -39,18 +39,30 @@
 						<th>
 							ToDo
 						</th>
-						<th class=>
+						<th align="right">
 							完成
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-				    <% for(var i=0; i<data.length; ++i) { %>
-					<tr>
+				    <% for(var i=0; i<data.length; ++i) { 
+                       var trStrle="";
+                       if(i % 2 == 0)
+                       {
+                         trStyle="success";
+                       }
+                       
+                       else
+                       {
+                         trStyle="default";
+                       }
+				    %>
+          
+					<tr class="<%=trStyle %>" >
 						<td>
 							<%=data[i].note%>
 						</td>
-						<td>
+						<td align="right">
 							<form action="finishItem" method="POST">
 							    <button class="btn btn-default" type="submit" name="_id" value="<%=data[i]._id %>" >完成</button>
 							</form>
