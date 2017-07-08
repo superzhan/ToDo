@@ -1,0 +1,11 @@
+.project
+*.log
+logs/*
+*/logs/*
+*/*.log
+!.gitignore
+node_modules/*
+*/node_modules/*
+.project
+.settings/
+.DS_Store

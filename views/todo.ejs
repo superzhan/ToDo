@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>superzhan todo list</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+
+			<h3 class="text-center">
+				Todo List
+			</h3> 
+
+            <form action="addItem" method="POST">
+                <input type="text-center" name="note" class="btn btn-block btn-default"> </input>
+				<button type="submit" class="btn btn-block btn-success">
+					添加
+				</button>
+			</form>
+
+			<br/> 
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							ToDo
+						</th>
+						<th class=>
+							完成
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				    <% for(var i=0; i<data.length; ++i) { %>
+					<tr>
+						<td>
+							<%=data[i].note%>
+						</td>
+						<td>
+							<form action="finishItem" method="POST">
+							    <button class="btn btn-default" type="submit" name="_id" value="<%=data[i]._id %>" >完成</button>
+							</form>
+						</td>
+					</tr>
+					<% }%>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
