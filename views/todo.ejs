@@ -13,6 +13,18 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
 
+     <script type="text/javascript">  
+        function check(){  
+            var nameValue=window.document.getElementById("note").value;  
+            if (nameValue == "") // 或者是!nameValue  
+            {  
+                window.alert("ToDo 内容不能为空!");  
+                return false;  
+            }  
+            return true;  
+        }  
+      </script>  
+
   </head>
   <body>
 
@@ -24,8 +36,8 @@
 				Todo List
 			</h3> 
 
-            <form action="addItem" method="POST">
-                <input type="text-center" name="note" class="btn btn-block btn-default"> </input>
+            <form action="addItem" method="POST" onsubmit="return check()">
+                <input id="note" type="text-center" name="note" class="btn btn-block btn-default"> </input>
 				<button type="submit" class="btn btn-block btn-success">
 					添加
 				</button>
