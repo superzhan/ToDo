@@ -54,7 +54,23 @@ router.post('/finishItem',function(req,res,next){
 
 });
 
+router.get('/getFinishItem',function(req,res,next){
 
+  todoSchema.find({"completed":true},function(err,data){
+		if(err){
+			next(err);
+		}else
+		{
+			for(var i=0;i<data.length;++i)
+			{
+				var curDate= data[i].updated_at;
+				data[i].finishTime =  timeTool.getDateString(curDate);
+			}
 
+			res.render('finishTodo', {"data":data});
+		}
+	});
+
+});
 
 module.exports = router;
