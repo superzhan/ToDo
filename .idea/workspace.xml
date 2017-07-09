@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e8f530c-73d2-4760-a645-ccdbaa9f1ab3" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/api/public/todoSchema.js" afterPath="$PROJECT_DIR$/api/public/TodoSchema.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/api/public/UserSchema.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/public/TodoSchema.js" afterPath="$PROJECT_DIR$/api/public/TodoSchema.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/todo.js" afterPath="$PROJECT_DIR$/api/todo.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/todo.ejs" afterPath="$PROJECT_DIR$/views/todo.ejs" />
     </list>
     <ignored path="todo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,9 +31,21 @@
       <file leaf-file-name="todo.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api/todo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="436">
+              <caret line="218" column="14" selection-start-line="218" selection-start-column="14" selection-end-line="218" selection-end-column="14" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserSchema.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api/public/UserSchema.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+              <folding>
+                <element signature="e#0#42#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -42,8 +53,8 @@
       <file leaf-file-name="TodoSchema.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/public/TodoSchema.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="165">
+              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -59,17 +70,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mongoDb.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/public/mongoDb.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -83,6 +91,7 @@
         <option value="$PROJECT_DIR$/api/public/mongoDb.js" />
         <option value="$PROJECT_DIR$/api/public/todoSchema.js" />
         <option value="$PROJECT_DIR$/api/public/TodoSchema.js" />
+        <option value="$PROJECT_DIR$/api/public/UserSchema.js" />
         <option value="$PROJECT_DIR$/api/todo.js" />
       </list>
     </option>
@@ -276,12 +285,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1499586219377</updated>
-      <workItem from="1499586221844" duration="3963000" />
+      <workItem from="1499586221844" duration="7405000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3963000" />
+    <option name="totallyTimeSpent" value="7405000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="4" y="23" width="1276" height="777" extended-state="6" />
@@ -362,14 +371,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/public/TodoSchema.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/public/timeTool.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -386,10 +387,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/api/public/TodoSchema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/public/UserSchema.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#42#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/api/todo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="436">
+          <caret line="218" column="14" selection-start-line="218" selection-start-column="14" selection-end-line="218" selection-end-column="14" />
           <folding />
         </state>
       </provider>

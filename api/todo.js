@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var TodoSchema = require('./public/TodoSchema');
+var UserSchema = require('./public/UserSchema');
 var timeTool = require('./public/timeTool');
+
+
+var crypto = require('crypto');
 
 
 /* GET users listing. */
@@ -124,6 +128,106 @@ router.post('/deleteAllItem', function(req, res, next) {
   });
 });
 
+/******************************/
 
+router.post('/register',function (req, res, next) {
+
+    var name = req.body.name;
+    var password = req.body.password;
+    var comfirmPassword = req.body.comfirmPassword;
+
+    if( password != comfirmPassword)
+    {
+        res.json({code:500,msg:'password is not same'});
+        return;
+    }
+
+    UserSchema.findOne({'name':name} , function (err, data) {
+        if(err)
+        {
+            res.json({code:500,msg:'check error'});
+            return;
+        }
+
+        if(data != null)
+        {
+            console.log(data);
+            res.json({code:500,msg:'userName is exist'});
+            return;
+        }
+
+        var hash = crypto.createHash('sha1');
+        hash.update(password);
+        password = hash.digest('hex');
+
+        var userInfo={};
+        userInfo.name = name;
+        userInfo.password= password;
+
+        UserSchema.create( userInfo,function (err,resData) {
+            if(err)
+            {
+                res.json({code:500,msg:'data base error'});
+            }else
+            {
+                res.json({code:200,msg:'success'});
+            }
+        });
+
+    });
+
+});
+
+router.post('/login',function (req, res, next) {
+
+    var name = req.body.name;
+    var password = req.body.password;
+
+    UserSchema.findOne({'name':name} , function (err, data) {
+        if(err)
+        {
+            res.json({code:500,msg:'data base error'});
+            return;
+        }
+
+        if(data == null)
+        {
+            res.json({code:500,msg:'user not exist'});
+            return;
+        }
+
+        var hash = crypto.createHash('sha1');
+        hash.update(password);
+        password = hash.digest('hex');
+        UserSchema.findOne({'name':name ,'password':password},function (err, data) {
+            if(err)
+            {
+                res.json({code:500,msg:'data base error'});
+                return;
+            }
+            if(data==null)
+            {
+                res.json({code:500,msg:'password not right'});
+                return;
+            }
+
+
+            UserSchema.findOneAndUpdate({name:name ,password:password},
+                {updated_at:timeTool.getCurDate()},
+                function (err, data) {
+                    if(err)
+                    {
+                        res.json({code:500,msg:'data base error'});
+                        return;
+                    }
+                    res.json({code:200,msg:'success'});
+                }
+            );
+
+        });
+
+    });
+
+});
 
 module.exports = router;
