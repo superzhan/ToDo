@@ -41,6 +41,27 @@ router.post('/getUnDoItem', function(req, res, next) {
 });
 
 
+router.post('/getFinishItem' , function (req, res, next) {
+
+    todoSchema.find({"completed":true},function(err,data){
+        if(err){
+            next(err);
+        }else
+        {
+            var resArray = new Array();
+            for(var i=0;i<data.length;++i)
+            {
+                var curDate= data[i].updated_at;
+                var item ={"_id":data[i]._id, "note":data[i].note ,"finishTime":timeTool.getDateString(curDate)};
+                resArray[i]=item
+            }
+
+            console.log("todo " + JSON.stringify(resArray));
+            res.json(resArray);
+        }
+    });
+});
+
 router.post('/getItemList', function(req, res, next) {
   
     todoSchema.find(function(err,data){
@@ -56,34 +77,37 @@ router.post('/getItemList', function(req, res, next) {
 
 router.post('/addItem', function(req, res, next) {
 
-  var item = req.body;
-  item.updated_at =timeTool.getCurDate();	
-  todoSchema.create(item,function(err,post){
-  	if(err)
-  	{
-  		next(err);
-  	}else
-  	{
-       res.json(post);
-  	}
-  });
+    var item = {};
+    item.note =req.body.note;
+    item.completed=false;
+    item.updated_at =timeTool.getCurDate();
+    todoSchema.create(item,function(err,post){
+        if(err)
+        {
+            next(err);
+        }else
+        {
+            res.json(post);
+        }
+    });
 
 });
 
 router.post('/updateItem', function(req, res, next) {
 
-  var item = req.body;
-  item.updated_at =timeTool.getCurDate();	
-
-  todoSchema.findByIdAndUpdate(item._id, item,function(err,post){
-  	if(err)
-  	{
-  		next(err);
-  	}else
-  	{
-       res.json(post);
-  	}
-  });
+    var item = {};
+    item._id =req.body._id;
+    item.completed=true;
+    item.updated_at =timeTool.getCurDate();
+    todoSchema.findByIdAndUpdate(item._id,item,function(err,post){
+        if(err)
+        {
+            next(err);
+        }else
+        {
+            res.json(post);
+        }
+    });
 });
 
 router.post('/deleteItem', function(req, res, next) {
