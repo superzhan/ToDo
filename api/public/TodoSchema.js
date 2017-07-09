@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
 var timeTool = require('./timeTool');
 
-var TodoSchema = new mongoose.Schema({
+var ToDoSchema = new mongoose.Schema({
   completed: Boolean,
   note: String,
   updated_at: { type: Date, default: timeTool.getCurDate()},
 });
-module.exports = mongoose.model('Todo', TodoSchema);
+module.exports = mongoose.model('Todo', ToDoSchema);
+

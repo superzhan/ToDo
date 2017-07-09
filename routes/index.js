@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var todoSchema = require('../api/public/todoSchema');
+var todoSchema = require('../api/public/TodoSchema');
 var timeTool = require('../api/public/timeTool');
 
 var request = require("request");

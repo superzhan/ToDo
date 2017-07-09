@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var todoSchema = require('./public/todoSchema');
+var TodoSchema = require('./public/TodoSchema');
 var timeTool = require('./public/timeTool');
 
 
@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/getItem', function(req, res, next) {
   
-    todoSchema.findOne({"_id":req.body._id},function(err,data){
+    TodoSchema.findOne({"_id":req.body._id},function(err, data){
     	if(err){
     		next(err);
     	}else
@@ -29,7 +29,7 @@ router.post('/getItem', function(req, res, next) {
 
 /*返回未完成的Item*/
 router.post('/getUnDoItem', function(req, res, next) {
-    todoSchema.find({"completed":false},function(err,data){
+    TodoSchema.find({"completed":false},function(err, data){
     if(err){
       next(err);
     }else
@@ -43,7 +43,7 @@ router.post('/getUnDoItem', function(req, res, next) {
 
 router.post('/getFinishItem' , function (req, res, next) {
 
-    todoSchema.find({"completed":true}).sort({updated_at:-1}).exec(function(err,data){
+    TodoSchema.find({"completed":true}).sort({updated_at:-1}).exec(function(err, data){
         if(err){
             next(err);
         }else
@@ -64,7 +64,7 @@ router.post('/getFinishItem' , function (req, res, next) {
 
 router.post('/getItemList', function(req, res, next) {
   
-    todoSchema.find(function(err,data){
+    TodoSchema.find(function(err, data){
     	if(err){
     		next(err);
     	}else
@@ -81,7 +81,7 @@ router.post('/addItem', function(req, res, next) {
     item.note =req.body.note;
     item.completed=false;
     item.updated_at =timeTool.getCurDate();
-    todoSchema.create(item,function(err,post){
+    TodoSchema.create(item,function(err, post){
         if(err)
         {
             next(err);
@@ -99,7 +99,7 @@ router.post('/updateItem', function(req, res, next) {
     item._id =req.body._id;
     item.completed=true;
     item.updated_at =timeTool.getCurDate();
-    todoSchema.findByIdAndUpdate(item._id,item,function(err,post){
+    TodoSchema.findByIdAndUpdate(item._id,item,function(err, post){
         if(err)
         {
             next(err);
@@ -111,14 +111,14 @@ router.post('/updateItem', function(req, res, next) {
 });
 
 router.post('/deleteItem', function(req, res, next) {
-  todoSchema.findByIdAndRemove(req.body._id,  function (err, post) {
+  TodoSchema.findByIdAndRemove(req.body._id,  function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
 router.post('/deleteAllItem', function(req, res, next) {
-  todoSchema.remove({}, function (err, post) {
+  TodoSchema.remove({}, function (err, post) {
     if (err) return next(err);
     res.json({'msg':'remove all'});
   });
