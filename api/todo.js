@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 });
 
 
-/* GET users listing. */
+
 
 router.post('/getItem', function(req, res, next) {
   
@@ -24,6 +24,19 @@ router.post('/getItem', function(req, res, next) {
     		res.json(data);
     	}
     });
+
+});
+
+/*返回未完成的Item*/
+router.post('/getUnDoItem', function(req, res, next) {
+    todoSchema.find({"completed":false},function(err,data){
+    if(err){
+      next(err);
+    }else
+    {
+      res.json(data);
+    }
+  });
 
 });
 
