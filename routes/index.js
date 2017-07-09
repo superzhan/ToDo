@@ -60,7 +60,7 @@ router.get('/getFinishItem',function(req,res,next){
     requestPostAPI('todo/getFinishItem',req.body,function (error, response, body) {
         if (error) throw new Error(error);
 
-        console.log("index " + JSON.stringify(body));
+        //console.log("index " + JSON.stringify(body));
         res.render('finishTodo', {"data":body});
     });
 

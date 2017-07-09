@@ -43,7 +43,7 @@ router.post('/getUnDoItem', function(req, res, next) {
 
 router.post('/getFinishItem' , function (req, res, next) {
 
-    todoSchema.find({"completed":true},function(err,data){
+    todoSchema.find({"completed":true}).sort({updated_at:-1}).exec(function(err,data){
         if(err){
             next(err);
         }else
@@ -56,7 +56,7 @@ router.post('/getFinishItem' , function (req, res, next) {
                 resArray[i]=item
             }
 
-            console.log("todo " + JSON.stringify(resArray));
+            //console.log("todo " + JSON.stringify(resArray));
             res.json(resArray);
         }
     });
