@@ -98,5 +98,26 @@ router.post('/login',function (req, res, next) {
     });
 });
 
+router.get('/register',function (req, res, next) {
+
+    res.render('register',{message:""});
+});
+
+router.post('/register',function (req, res, next) {
+
+    requestPostAPI('todo/register',req.body,function (error, response, body) {
+        if (error) {
+            next(error)
+        }
+        else if(body.code ===200){
+            res.redirect('/login');
+
+        }
+        else {
+            res.render('register',{message:body.msg});
+        }
+    });
+});
+
 
 module.exports = router;
