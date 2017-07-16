@@ -41,6 +41,11 @@
 				<button type="submit" class="btn btn-block btn-success">
 					登录
 				</button>
+
+				<% if(isRightName===false) { %>
+				    <p>帐号密码错误</p>
+				<% }%>
+
 			</form>
 		</div>
 	</div>
