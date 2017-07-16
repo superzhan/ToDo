@@ -27,6 +27,11 @@ function requestPostAPI(api,reqBody,callback)
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
+    if(req.session.user ==null)
+    {
+        res.redirect('/login');
+    }
+
   requestPostAPI('todo/getUndoItem',req.body,function (error, response, body) {
     if (error) throw new Error(error);
 
@@ -57,6 +62,11 @@ router.post('/finishItem',function(req,res,next){
 
 router.get('/getFinishItem',function(req,res,next){
 
+    if(req.session.user ==null)
+    {
+        res.redirect('/login');
+    }
+
     requestPostAPI('todo/getFinishItem',req.body,function (error, response, body) {
         if (error) throw new Error(error);
 
@@ -65,5 +75,28 @@ router.get('/getFinishItem',function(req,res,next){
     });
 
 });
+
+
+router.get('/login',function (req, res, next) {
+
+    res.render('login',{});
+});
+router.post('/login',function (req, res, next) {
+
+    requestPostAPI('todo/login',req.body,function (error, response, body) {
+        if (error) {
+            next(error)
+        }
+        else if(body.code ===200){
+            req.session.user = body;
+            res.redirect('/');
+
+        }
+        else {
+            res.redirect('/login');
+        }
+    });
+});
+
 
 module.exports = router;

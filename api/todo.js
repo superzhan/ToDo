@@ -220,7 +220,7 @@ router.post('/login',function (req, res, next) {
                         res.json({code:500,msg:'data base error'});
                         return;
                     }
-                    res.json({code:200,msg:'success'});
+                    res.json({code:200,msg:'success',_id:data._id});
                 }
             );
 
