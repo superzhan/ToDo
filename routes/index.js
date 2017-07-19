@@ -32,17 +32,28 @@ router.get('/', function(req, res, next) {
         res.redirect('/login');
     }
 
-  requestPostAPI('todo/getUndoItem',req.body,function (error, response, body) {
-    if (error) throw new Error(error);
+    var user={};
+    user.userId = req.session.user._id;
 
-     res.render('todo',{data:body});
-   });
+    requestPostAPI('todo/getUndoItem',user,function (error, response, body) {
+        if (error) throw new Error(error);
+
+         res.render('todo',{data:body});
+    });
 
 });
 
 router.post('/addItem',function(req,res,next){
 
-    requestPostAPI('todo/addItem',req.body,function (error, response, body) {
+    if(req.session.user ==null)
+    {
+        res.redirect('/login');
+    }
+
+    var reqData=req.body;
+    reqData.userId = req.session.user._id;
+
+    requestPostAPI('todo/addItem',reqData,function (error, response, body) {
         if (error) throw new Error(error);
 
         res.redirect('/');
@@ -67,7 +78,10 @@ router.get('/getFinishItem',function(req,res,next){
         res.redirect('/login');
     }
 
-    requestPostAPI('todo/getFinishItem',req.body,function (error, response, body) {
+    var user={};
+    user.userId = req.session.user._id;
+
+    requestPostAPI('todo/getFinishItem',user,function (error, response, body) {
         if (error) throw new Error(error);
 
         //console.log("index " + JSON.stringify(body));
