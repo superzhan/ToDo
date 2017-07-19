@@ -3,6 +3,7 @@ var router = express.Router();
 var TodoSchema = require('./public/TodoSchema');
 var UserSchema = require('./public/UserSchema');
 var timeTool = require('./public/timeTool');
+var mongoose = require('mongoose');
 
 
 var crypto = require('crypto');
@@ -19,7 +20,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/getItem', function(req, res, next) {
-  
+
     TodoSchema.findOne({"_id":req.body._id},function(err, data){
     	if(err){
     		next(err);
@@ -33,7 +34,15 @@ router.post('/getItem', function(req, res, next) {
 
 /*返回未完成的Item*/
 router.post('/getUnDoItem', function(req, res, next) {
-    TodoSchema.find({"completed":false},function(err, data){
+
+    if(req.body.userId==null)
+    {
+        res.json({code:500,msg:"request error"});
+        return;
+    }
+
+    var userId =mongoose.Types.ObjectId(req.body.userId);
+    TodoSchema.find({"completed":false ,"userId":userId},function(err, data){
     if(err){
       next(err);
     }else
@@ -47,7 +56,14 @@ router.post('/getUnDoItem', function(req, res, next) {
 
 router.post('/getFinishItem' , function (req, res, next) {
 
-    TodoSchema.find({"completed":true}).sort({updated_at:-1}).exec(function(err, data){
+    if(req.body.userId==null)
+    {
+        res.json({code:500,msg:"request error"});
+        return;
+    }
+
+    var userId =mongoose.Types.ObjectId(req.body.userId);
+    TodoSchema.find({"completed":true,"userId":userId}).sort({updated_at:-1}).exec(function(err, data){
         if(err){
             next(err);
         }else
@@ -67,8 +83,15 @@ router.post('/getFinishItem' , function (req, res, next) {
 });
 
 router.post('/getItemList', function(req, res, next) {
-  
-    TodoSchema.find(function(err, data){
+
+    if(req.body.userId==null)
+    {
+        res.json({code:500,msg:"request error"});
+        return;
+    }
+
+    var userId =mongoose.Types.ObjectId(req.body.userId);
+    TodoSchema.find({"userId":userId},function(err, data){
     	if(err){
     		next(err);
     	}else
@@ -81,10 +104,20 @@ router.post('/getItemList', function(req, res, next) {
 
 router.post('/addItem', function(req, res, next) {
 
+    if(req.body.userId==null || req.body.note == null)
+    {
+        res.json({code:500,msg:"request error"});
+        return;
+    }
+
     var item = {};
     item.note =req.body.note;
     item.completed=false;
     item.updated_at =timeTool.getCurDate();
+    item.userId = mongoose.Types.ObjectId(req.body.userId);
+
+
+
     TodoSchema.create(item,function(err, post){
         if(err)
         {
@@ -103,6 +136,7 @@ router.post('/updateItem', function(req, res, next) {
     item._id =req.body._id;
     item.completed=true;
     item.updated_at =timeTool.getCurDate();
+
     TodoSchema.findByIdAndUpdate(item._id,item,function(err, post){
         if(err)
         {
@@ -115,17 +149,19 @@ router.post('/updateItem', function(req, res, next) {
 });
 
 router.post('/deleteItem', function(req, res, next) {
-  TodoSchema.findByIdAndRemove(req.body._id,  function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+      TodoSchema.findByIdAndRemove(req.body._id,  function (err, post) {
+        if (err) return next(err);
+        res.json(post);
+      });
 });
 
 router.post('/deleteAllItem', function(req, res, next) {
-  TodoSchema.remove({}, function (err, post) {
-    if (err) return next(err);
-    res.json({'msg':'remove all'});
-  });
+
+      var userId =mongoose.Types.ObjectId(req.body.userId);
+      TodoSchema.remove({"userId":userId}, function (err, post) {
+        if (err) return next(err);
+        res.json({'msg':'remove all'});
+      });
 });
 
 /******************************/
