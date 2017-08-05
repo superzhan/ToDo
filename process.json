@@ -1,0 +1,17 @@
+{
+  "apps":[
+    {
+      "name"        : "ToDo",
+      "script"      : "./bin/www",
+      "watch"       : false,
+      "instances"   : "1",
+      "exec_mode"   : "fork",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT"    :3000
+      },
+      "out_file": "./logs/app.log",
+      "error_file": "./logs/err.log"
+    }
+  ]
+}
