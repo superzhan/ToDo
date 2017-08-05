@@ -6,17 +6,36 @@ var timeTool = require('./public/timeTool');
 var mongoose = require('mongoose');
 
 
+var passport = require('passport');
+var Strategy = require('passport-http').BasicStrategy;
+
 var crypto = require('crypto');
 
+/*验证帐号密码*/
+passport.use(new Strategy(
+    function(username, password, cb) {
+
+        var hash = crypto.createHash('sha1');
+        hash.update(password);
+        var cryPassword = hash.digest('hex');
+
+        UserSchema.findOne({name:username,password:cryPassword}, function(err, user) {
+            if (err) { return cb(err); }
+            if (!user) { return cb(null, false); }
+            return cb(null, user);
+        });
+    }));
+
+var authenti=passport.authenticate('basic', { session: false });
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', authenti,function(req, res, next) {
   
-   res.send("request api");
+   res.json({res:"request api"});
 
 });
 
-router.post('/getItem', function(req, res, next) {
+router.post('/getItem', authenti,function(req, res, next) {
 
     TodoSchema.findOne({"_id":req.body._id},function(err, data){
     	if(err){
@@ -30,7 +49,7 @@ router.post('/getItem', function(req, res, next) {
 });
 
 /*返回未完成的Item*/
-router.post('/getUnDoItem', function(req, res, next) {
+router.post('/getUnDoItem', authenti,function(req, res, next) {
 
     if(req.body.userId==null)
     {
@@ -51,7 +70,7 @@ router.post('/getUnDoItem', function(req, res, next) {
 });
 
 
-router.post('/getFinishItem' , function (req, res, next) {
+router.post('/getFinishItem' ,authenti, function (req, res, next) {
 
     if(req.body.userId==null)
     {
@@ -79,7 +98,7 @@ router.post('/getFinishItem' , function (req, res, next) {
     });
 });
 
-router.post('/getItemList', function(req, res, next) {
+router.post('/getItemList',authenti, function(req, res, next) {
 
     if(req.body.userId==null)
     {
@@ -99,7 +118,7 @@ router.post('/getItemList', function(req, res, next) {
 
 });
 
-router.post('/addItem', function(req, res, next) {
+router.post('/addItem', authenti,function(req, res, next) {
 
     if(req.body.userId==null || req.body.note == null)
     {
@@ -127,7 +146,7 @@ router.post('/addItem', function(req, res, next) {
 
 });
 
-router.post('/updateItem', function(req, res, next) {
+router.post('/updateItem', authenti,function(req, res, next) {
 
     var item = {};
     item._id =req.body._id;
@@ -145,14 +164,14 @@ router.post('/updateItem', function(req, res, next) {
     });
 });
 
-router.post('/deleteItem', function(req, res, next) {
+router.post('/deleteItem',authenti, function(req, res, next) {
       TodoSchema.findByIdAndRemove(req.body._id,  function (err, post) {
         if (err) return next(err);
         res.json(post);
       });
 });
 
-router.post('/deleteAllItem', function(req, res, next) {
+router.post('/deleteAllItem',authenti, function(req, res, next) {
 
       var userId =mongoose.Types.ObjectId(req.body.userId);
       TodoSchema.remove({"userId":userId}, function (err, post) {

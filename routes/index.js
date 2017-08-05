@@ -7,13 +7,23 @@ var timeTool = require('../api/public/timeTool');
 var request = require("request");
 
 
-function requestPostAPI(api,reqBody,callback)
+function requestPostAPI(api,session,reqBody,callback)
 {
+    /*添加API Basic Auth 认证*/
+    var auth="";
+   if(session !=null) {
+       var username = session.user.name;
+       var password = session.user.password;
+       var auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
+   }
+
   var ipAddr = "http://localhost:3000/";
   var options = { method: 'POST',
                   url:  ipAddr+api,
                   headers: 
-                   {'content-type': 'application/json' },
+                   {'content-type': 'application/json',
+                       authorization: auth
+                   },
                   body: reqBody,
                   json: true };
 
@@ -35,7 +45,7 @@ router.get('/', function(req, res, next) {
     var user={};
     user.userId = req.session.user._id;
 
-    requestPostAPI('todo/getUndoItem',user,function (error, response, body) {
+    requestPostAPI('todo/getUndoItem',req.session, user,function (error, response, body) {
         if (error) throw new Error(error);
 
          res.render('todo',{data:body});
@@ -53,7 +63,7 @@ router.post('/addItem',function(req,res,next){
     var reqData=req.body;
     reqData.userId = req.session.user._id;
 
-    requestPostAPI('todo/addItem',reqData,function (error, response, body) {
+    requestPostAPI('todo/addItem',req.session,reqData,function (error, response, body) {
         if (error) throw new Error(error);
 
         res.redirect('/');
@@ -63,7 +73,7 @@ router.post('/addItem',function(req,res,next){
 
 router.post('/finishItem',function(req,res,next){
 
-    requestPostAPI('todo/updateItem',req.body,function (error, response, body) {
+    requestPostAPI('todo/updateItem',req.session,req.body,function (error, response, body) {
         if (error) throw new Error(error);
 
         res.redirect('/');
@@ -81,7 +91,7 @@ router.get('/getFinishItem',function(req,res,next){
     var user={};
     user.userId = req.session.user._id;
 
-    requestPostAPI('todo/getFinishItem',user,function (error, response, body) {
+    requestPostAPI('todo/getFinishItem',req.session,user,function (error, response, body) {
         if (error) throw new Error(error);
 
         //console.log("index " + JSON.stringify(body));
@@ -97,12 +107,14 @@ router.get('/login',function (req, res, next) {
 });
 router.post('/login',function (req, res, next) {
 
-    requestPostAPI('todo/login',req.body,function (error, response, body) {
+    requestPostAPI('todo/login',null,req.body,function (error, response, body) {
         if (error) {
             next(error)
         }
         else if(body.code ===200){
-            req.session.user = body;
+
+            var usrData={_id:body._id, name: req.body.name, password :req.body.password};
+            req.session.user = usrData;
             res.redirect('/');
 
         }
@@ -119,7 +131,7 @@ router.get('/register',function (req, res, next) {
 
 router.post('/register',function (req, res, next) {
 
-    requestPostAPI('todo/register',req.body,function (error, response, body) {
+    requestPostAPI('todo/register',null,req.body,function (error, response, body) {
         if (error) {
             next(error)
         }
