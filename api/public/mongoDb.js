@@ -1,8 +1,20 @@
-// load mongoose package
+
+var config = require('../../mongoConfig.json');
+
+var connectStr = '';
+if(config.isAuth)
+{
+  connectStr='mongodb://'+config.username+':'+config.password+'@'+config.host$
+}else
+{
+  connectStr='mongodb://'+config.host+':'+config.port+'/'+config.database;
+}
+console.log(connectStr);
+
 var mongoose = require('mongoose');
-// Use native Node promises
 mongoose.Promise = global.Promise;
-// connect to MongoDB
-mongoose.connect('mongodb://localhost/todo-api')
-  .then(() =>  console.log('connection succesful'))
-  .catch((err) => console.error(err));
+mongoose.connect(connectStr)
+    .then(function () {console.log('connection succesful')})
+    .catch(function (err) {console.error(err)});
+
+module.exports = mongoose;

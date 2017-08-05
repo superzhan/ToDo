@@ -16,9 +16,6 @@ router.get('/', function(req, res, next) {
 
 });
 
-
-
-
 router.post('/getItem', function(req, res, next) {
 
     TodoSchema.findOne({"_id":req.body._id},function(err, data){
